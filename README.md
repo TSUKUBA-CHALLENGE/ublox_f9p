@@ -34,3 +34,45 @@ zed-f9p.yaml (only for seting up device connection and published messages)
 
 ```roslaunch ublox_gps ublox_zed-f9p.launch```
 
+## catkin_make error
+以下のエラーがcatkin_makeをして出た
+
+```bash
+CMake Error at /opt/ros/melodic/share/catkin/cmake/catkinConfig.cmake:83 (find_package):
+  Could not find a package configuration file provided by "rtcm_msgs" with
+  any of the following names:
+
+    rtcm_msgsConfig.cmake
+    rtcm_msgs-config.cmake
+
+  Add the installation prefix of "rtcm_msgs" to CMAKE_PREFIX_PATH or set
+  "rtcm_msgs_DIR" to a directory containing one of the above files.  If
+  "rtcm_msgs" provides a separate development package or SDK, be sure it has
+  been installed.
+Call Stack (most recent call first):
+  ublox/ublox_gps/CMakeLists.txt:3 (find_package)
+
+
+-- Configuring incomplete, errors occurred!
+See also "/home/move/catkin_ws/build/CMakeFiles/CMakeOutput.log".
+See also "/home/move/catkin_ws/build/CMakeFiles/CMakeError.log".
+Invoking "cmake" failed
+```
+
+しかし以下のコマンドを行ってからcatkin_makeを行うと成功する
+
+```bash
+sudo apt-get install ros-melodic-rtcm-msgs
+```
+
+status.status = 2 は、基準局を基づいて解析Fix解が得られています。
+2ではなく、0の状態。
+
+int8 STATUS_NO_FIX =  -1        # unable to fix position
+int8 STATUS_FIX =      0        # unaugmented fix
+int8 STATUS_SBAS_FIX = 1        # with satellite-based augmentation
+int8 STATUS_GBAS_FIX = 2        # with ground-based augmentation
+
+なので、stateが-1のときにはGPS navigationをやめて、それ以外のときにはGPS navigationを実行する
+
+  
