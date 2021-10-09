@@ -7,7 +7,9 @@ frame_id: gps
 config_on_startup: false # use chip config
 
 uart1:
-  baudrate: 230400       # serial port baudrate
+  #baudrate: 230400       # serial port baudrate
+  #baudrate: 115200  # serial port baudrate
+  baudrate: 460800  # serial port baudrate
   in: 32
   out: 3
 
